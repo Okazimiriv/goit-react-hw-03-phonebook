@@ -1,18 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import shortId from 'shortid';
-import styles from './Filter.module.css';
+import { FilterBlock, FilterLabel, FilterInput } from './Filter.styled';
 
 const Filter = ({ value, onChange }) => {
   const id = shortId.generate();
 
   return (
-    <div className={styles.filter}>
-      <label htmlFor={id} className={styles.label}>
-        Find Contacts by name
-      </label>
-      <input
-        className={styles.input}
+    <FilterBlock>
+      <FilterLabel htmlFor={id}>Find Contacts by name</FilterLabel>
+      <FilterInput
         id={id}
         type="text"
         name="filter"
@@ -22,7 +19,7 @@ const Filter = ({ value, onChange }) => {
         pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
         title=" Enter name may contain only letters, apostrophe, dash and spaces."
       />
-    </div>
+    </FilterBlock>
   );
 };
 

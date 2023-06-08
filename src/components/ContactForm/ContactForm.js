@@ -1,9 +1,17 @@
 import React from 'react';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { Formik } from 'formik';
 import * as yup from 'yup';
 import { Component } from 'react';
+import shortId from 'shortid';
 // import PropTypes from 'prop-types';
-import styles from './ContactForm.module.css';
+
+import {
+  Form,
+  FormLabel,
+  FormField,
+  ErrorMessage,
+  StyledButton,
+} from './ContactForm.styled';
 
 const initialValues = {
   name: ' ',
@@ -29,64 +37,60 @@ const schema = yup.object().shape({
     .required(),
 });
 
-// const ErrorText = styled.p`
-//   color: red;
-// `;
-
-// const FormError = ({ name }) => {
-//   return (
-//     <ErrorMessage
-//       name={name}
-//       render={message => <ErrorText>{message}</ErrorText>}
-//     />
-//   );
-// };
-
 class ContactForm extends Component {
-  // export const ContactForm = () => {
+  state = {
+    name: '',
+    number: '',
+  };
+
+  nameInputId = shortId.generate();
+  numberInputId = shortId.generate();
+
   handleSubmit = (values, { resetForm }) => {
     console.log('values', values);
+
+    // const data = this.state;
+    this.props.onAddContact(values);
+
+    this.setState({
+      name: '',
+      number: '',
+    });
 
     resetForm();
   };
 
   render() {
-    //   const { name, number } = this.state;
-
     return (
       <Formik
         initialValues={initialValues}
         validationSchema={schema}
         onSubmit={this.handleSubmit}
       >
-        <Form autoComplete="off" className={styles.ContactForm}>
-          {/* <label className={styles.label} htmlFor={this.nameInputId}> */}
-          <label className={styles.label}>Name</label>
-          <Field
-            className={styles.input}
+        <Form autoComplete="off">
+          <FormLabel>Name</FormLabel>
+          <FormField
             type="text"
             name="name"
+            id={this.nameInputId}
             placeholder="Harry Potter"
             pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
             title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
             required
           />
-          <ErrorMessage name="name" />
-          {/* <label className={styles.label} htmlFor={this.numberInputId}> */}
-          <label className={styles.label}>Number</label>
-          <Field
-            className={styles.input}
+          <ErrorMessage name="name" component="span" />
+          <FormLabel>Number</FormLabel>
+          <FormField
             type="tel"
             name="number"
+            id={this.numberInputId}
             placeholder="765-43-21"
             pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
             title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
             required
           />
-          <ErrorMessage name="number" />
-          <button className={styles.button} type="submit">
-            Add contact
-          </button>
+          <ErrorMessage name="number" component="span" />
+          <StyledButton type="submit">Add contact</StyledButton>
         </Form>
       </Formik>
     );
