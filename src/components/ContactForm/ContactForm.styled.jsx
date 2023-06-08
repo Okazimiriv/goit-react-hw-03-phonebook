@@ -30,7 +30,9 @@ export const FormField = styled(Field)`
   }
 `;
 export const ErrorMessage = styled(FormikError)`
-  color: red;
+  max-width: 400px;
+  color: #9e0202;
+  margin-bottom: 10px;
 `;
 
 export const StyledButton = styled.button`

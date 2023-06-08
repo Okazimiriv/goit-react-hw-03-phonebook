@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+
 import shortId from 'shortid';
 import { Container } from './App.styled';
 
@@ -53,6 +54,20 @@ class App extends Component {
       contact.name.toLowerCase().includes(normalizedFilter)
     );
   };
+
+  componentDidMount() {
+    const contacts = JSON.parse(localStorage.getItem('contacts'));
+    if (contacts) {
+      this.setState({ contacts: contacts });
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.contacts !== prevState.contacts) {
+      console.log('обновилось');
+      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
+    }
+  }
 
   render() {
     const { filter } = this.state;

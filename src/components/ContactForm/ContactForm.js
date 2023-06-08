@@ -3,7 +3,7 @@ import { Formik } from 'formik';
 import * as yup from 'yup';
 import { Component } from 'react';
 import shortId from 'shortid';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 
 import {
   Form,
@@ -14,8 +14,8 @@ import {
 } from './ContactForm.styled';
 
 const initialValues = {
-  name: ' ',
-  number: ' ',
+  name: '',
+  number: '',
 };
 
 const schema = yup.object().shape({
@@ -47,9 +47,7 @@ class ContactForm extends Component {
   numberInputId = shortId.generate();
 
   handleSubmit = (values, { resetForm }) => {
-    console.log('values', values);
-
-    // const data = this.state;
+    // console.log('values', values);
     this.props.onAddContact(values);
 
     this.setState({
@@ -96,5 +94,9 @@ class ContactForm extends Component {
     );
   }
 }
+
+PropTypes.ContactForm = {
+  onAddContact: PropTypes.func.isRequired,
+};
 
 export default ContactForm;
