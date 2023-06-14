@@ -10,11 +10,26 @@ import Filter from 'components/Filter';
 
 import initialContacts from '../src/contacts.json';
 
+const CONTACTS_KEY = 'contactsKey';
+
 class App extends Component {
   state = {
     contacts: initialContacts,
     filter: '',
   };
+
+  componentDidMount() {
+    const contacts = JSON.parse(localStorage.getItem('CONTACTS_KEY'));
+    if (contacts) {
+      this.setState({ contacts: contacts });
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.contacts !== prevState.contacts) {
+      localStorage.setItem('CONTACTS_KEY', JSON.stringify(this.state.contacts));
+    }
+  }
 
   onContactFormSubmit = contactData => {
     const id = shortId.generate();
@@ -54,19 +69,6 @@ class App extends Component {
       contact.name.toLowerCase().includes(normalizedFilter)
     );
   };
-
-  componentDidMount() {
-    const contacts = JSON.parse(localStorage.getItem('contacts'));
-    if (contacts) {
-      this.setState({ contacts: contacts });
-    }
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (this.state.contacts !== prevState.contacts) {
-      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
-    }
-  }
 
   render() {
     const { filter } = this.state;
