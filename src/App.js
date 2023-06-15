@@ -10,7 +10,7 @@ import Filter from 'components/Filter';
 
 import initialContacts from '../src/contacts.json';
 
-const CONTACTS_KEY = 'contactsKey';
+const CONTACTS_KEY = 'contacts';
 
 class App extends Component {
   state = {
@@ -19,7 +19,7 @@ class App extends Component {
   };
 
   componentDidMount() {
-    const contacts = JSON.parse(localStorage.getItem('CONTACTS_KEY'));
+    const contacts = JSON.parse(localStorage.getItem(CONTACTS_KEY));
     if (contacts) {
       this.setState({ contacts: contacts });
     }
@@ -27,7 +27,7 @@ class App extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (this.state.contacts !== prevState.contacts) {
-      localStorage.setItem('CONTACTS_KEY', JSON.stringify(this.state.contacts));
+      localStorage.setItem(CONTACTS_KEY, JSON.stringify(this.state.contacts));
     }
   }
 
